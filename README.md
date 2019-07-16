@@ -1,2 +1,5 @@
-# codobo-uno
-An uno module for the codobo bot!
+# CoDoBo » Modules » UNO
+
+## Version:
+
+0.5
