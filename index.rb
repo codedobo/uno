@@ -3,6 +3,7 @@
 require_relative '../../module.rb'
 require_relative './user-commands.rb'
 require_relative './game.rb'
+require_relative './setup.rb'
 class UnoModule
   include BotModule
   @@moduleVersion = '0.5'

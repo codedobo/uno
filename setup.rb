@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './uno-module.rb'
+require_relative './index.rb'
 class UnoModule
   def setup
     puts 'Set up up uno module...'
