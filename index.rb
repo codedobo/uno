@@ -11,7 +11,7 @@ class UnoModule
     puts 'Starting uno module...'
     @client = client
     @moduleManager = moduleManager
-    @language = BotModule::Language.new 'uno', @client
+    @language = BotModule::Language.new __dir__ + '/language', @client
     setup
     @moduleManager.bot.discord.message do |event|
       message(event)
