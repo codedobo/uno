@@ -4,6 +4,27 @@ require_relative './index.rb'
 class UnoModule
   class MatchMaking
     class Game
+      def GameChannel
+        def initialize(player, category,language)
+          @player = player
+          @category = category
+          @language = language
+          @channel = category.create_channel
+          @messages = []
+        end
+
+        def exit; end
+        def send_message(content, tts = false, embed = nil,pin=false)
+          @messages.push(@channel.send_message(content,tts,embed))
+        end
+        def delete_messages()
+          @messages.each {|message|
+            message.delete
+            @messages.delete(message)
+          }
+        end
+      end
+
       def Card
         def initialize(json)
           @properties = json
