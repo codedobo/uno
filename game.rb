@@ -5,23 +5,38 @@ class UnoModule
   class MatchMaking
     class Game
       def GameChannel
-        def initialize(player, category,language)
+        def initialize(player, category, language, gane)
           @player = player
           @category = category
           @language = language
           @channel = category.create_channel
+          @game = game
           @messages = []
+          timeOut
         end
 
         def exit; end
-        def send_message(content, tts = false, embed = nil,pin=false)
-          @messages.push(@channel.send_message(content,tts,embed))
+
+        def send_message(content, tts = false, embed = nil, _pin = false)
+          @messages.push(@channel.send_message(content, tts, embed))
         end
-        def delete_messages()
-          @messages.each {|message|
+
+        def timeOut
+          @timeOut = 0
+          Thread.new do
+            @timeOut.upto(10) do
+              sleep 1
+            end
+            @game.matchMaking.leave(player)
+            end
+          end
+        end
+
+        def delete_messages
+          @messages.each do |message|
             message.delete
             @messages.delete(message)
-          }
+          end
         end
       end
 
@@ -82,9 +97,17 @@ class UnoModule
             end
             @mode = :ingame
           end
-          true
         else
-          false
+          Thread.new do
+            30.downto(0) do |i|
+              @message.channel.send_message format(@language.getJson(event.server.id)['messages']['ingame-close'], s: i)
+              if players.length > 1
+                ingame!
+                return
+              end
+              sleep 1
+            end
+          end
         end
       end
 
@@ -98,9 +121,17 @@ class UnoModule
             @userChannels.each(&:delete)
             @mode = :lobby
           end
-          true
         else
-          false
+          Thread.new do
+            30.downto(0) do |i|
+              @message.channel.send_message format(@language.getJson(event.server.id)['messages']['lobby-close'], s: i)
+              if players.length > 1
+                lobby!
+                return
+              end
+              sleep 1
+            end
+          end
         end
       end
 
