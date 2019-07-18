@@ -4,40 +4,48 @@ require_relative '../../module.rb'
 require_relative './user-commands.rb'
 require_relative './game.rb'
 require_relative './setup.rb'
+# Uno module for the codobo
 class UnoModule
   include BotModule
-  @@moduleVersion = '0.5'
-  def start(client, moduleManager)
+  def self.module_version
+    '0.5'
+  end
+
+  def start(client, module_manager)
     puts 'Starting uno module...'
     @client = client
-    @moduleManager = moduleManager
+    @module_manager = module_manager
     @language = BotModule::Language.new __dir__ + '/language', @client
     setup
-    @moduleManager.bot.discord.message do |event|
+    @module_manager.bot.discord.message do |event|
       message(event)
     end
     puts 'Successfully started uno module!'
   end
 
-  def consoleCommand(command, _args)
-    if command == 'uno'
-      puts "Running uno@#{@@moduleVersion} module!"
-      true
-    end
+  def console_command(command, _args)
+    puts "Running uno@#{module_version} module!" if command == 'uno'
+    true if command == 'uno'
   end
 
-  def matchMaking
-    @matchMaking = {}
+  def match_making
+    @match_making&.each do |_key, value|
+      value.exit
+    end
+    @match_making = {}
     @client.query('SELECT * FROM `uno`').each do |row|
       next if row['CATEGORY'].nil?
-      next unless @moduleManager.bot.discord.servers.key? row['SERVERID']
+      next unless @module_manager.bot.discord.servers.key? row['SERVERID']
 
-      @matchMaking[row['SERVERID'].to_i] = UnoModule::MatchMaking.new(@moduleManager.bot, @moduleManager.bot.discord.channel(row['CATEGORY']), @language)
+      channel = @module_manager.bot.discord.channel(row['CATEGORY'])
+      bot = @module_manager.bot
+      channel_match_making = UnoModule::MatchMaking.new(bot, channel, @language)
+      @match_making[row['SERVERID'].to_i] = channel_match_making
     end
   end
 
   def exit
-    @matchMaking.each do |_key, value|
+    @match_making.each do |_key, value|
       value.exit
     end
   end

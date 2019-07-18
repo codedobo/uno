@@ -17,7 +17,7 @@
                 "He",
                 "H"
             ],
-            "output": "Uno module help: \r\n-`uno` » See information about this module \r\n-`uno help` » See this help site \r\n-`uno category <Category>` » Set matchmaking category \r\n-`uno category` » Get matchmaking category"
+            "output": "Uno module help: \r\n-`uno` » See information about this module \r\n-`uno help` » See this help site \r\n-`uno category <Category>` » Set match_making category \r\n-`uno category` » Get match_making category"
         },
         "category": {
             "get": {
@@ -31,9 +31,9 @@
                     "category",
                     "cg"
                 ],
-                "output": "The matchmaking channel is %{c}(%{i})",
+                "output": "The match_making channel is %{c}(%{i})",
                 "usage": "Usage: `uno category`!",
-                "no": "You haven't got a matchmaking channel!"
+                "no": "You haven't got a match_making channel!"
             },
             "set": {
                 "aliases": [
@@ -46,9 +46,9 @@
                     "scategory",
                     "scg"
                 ],
-                "usage": "Usage: `uno setcategory <Category>` to set the category for the matchmaking and `uno setcategory [<Category>]` to remove the category!",
-                "output": "Successfully set the matchmaking channel to %{c}(%{i})!",
-                "remove": "Successfully remove the matchmaking channel!",
+                "usage": "Usage: `uno setcategory <Category>` to set the category for the match_making and `uno setcategory [<Category>]` to remove the category!",
+                "output": "Successfully set the match_making channel to %{c}(%{i})!",
+                "remove": "Successfully remove the match_making channel!",
                 "notexist": "Category `%{c}` does not exist or is a channel!"
             },
             "nopermission": "You do not have permission to use this command!"
@@ -58,7 +58,7 @@
     },
     "category": {
         "hub": {
-            "name": "uno-matchmaking",
+            "name": "uno-match_making",
             "topic": "Here you can join/create (private) uno matches!"
         },
         "lobby": {

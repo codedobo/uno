@@ -9,7 +9,7 @@ class UnoModule
     if commandLanguage['uno']['aliases'].include? command
       if args.empty?
         output = commandLanguage['uno']['output']
-        event.send_temporary_message format(output, v: @@moduleVersion), 10
+        event.send_temporary_message format(output, v: module_version), 10
       else
         if event.user.permission? :administrator
           case args[0]

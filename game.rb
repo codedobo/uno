@@ -2,10 +2,12 @@
 
 require_relative './index.rb'
 class UnoModule
+  # MatchMaking is a class which handle the uno system!
   class MatchMaking
     class Game
-      def GameChannel
-        def initialize(player, category, language, gane)
+      # Every team has own game channels!
+      class GameChannel
+        def initialize(player, category, language, _gane)
           @player = player
           @category = category
           @language = language
@@ -17,8 +19,10 @@ class UnoModule
 
         def exit; end
 
-        def send_message(content, tts = false, embed = nil, _pin = false)
-          @messages.push(@channel.send_message(content, tts, embed))
+        def send_message(content, tts = false, embed = nil, pin = false)
+          message = @channel.send_message(content, tts, embed)
+          @messages.push(message)
+          @channel.pin(message) if pin
         end
 
         def timeOut
@@ -27,8 +31,7 @@ class UnoModule
             @timeOut.upto(10) do
               sleep 1
             end
-            @game.matchMaking.leave(player)
-            end
+            @game.match_making.leave(player)
           end
         end
 
@@ -39,16 +42,15 @@ class UnoModule
           end
         end
       end
-
-      def Card
+      # A card is a game element in uno
+      class Card
         def initialize(json)
           @properties = json
         end
 
         def set?(card)
-          cardProp = card.properties
-          myProp = @properties
-          if (card.groups.before & myProp.groups.after).empty?
+          my_prop = @properties
+          if (card.groups.before & my_prop.groups.after).empty?
             true
           else
             false
@@ -57,8 +59,7 @@ class UnoModule
         attr_accessor :properties
       end
 
-      def initialize(matchMaking, category, language)
-        @matchMaking = matchMaking
+      def initialize(match_making, category, language)
         @category = category
         @mode = :lobby
         @language = language
@@ -73,7 +74,7 @@ class UnoModule
         channel.server.roles.each do |role|
           channel.define_overwrite(role, Discordrb::Permissions.new, Discordrb::Permissions.new(%i[read_messages add_reactions send_messages]))
         end
-        matchMaking.bot.discord.reaction_add do |event|
+        match_making.bot.discord.reaction_add do |event|
           react(event)
         end
       end
@@ -103,7 +104,7 @@ class UnoModule
               @message.channel.send_message format(@language.getJson(event.server.id)['messages']['ingame-close'], s: i)
               if players.length > 1
                 ingame!
-                return
+                break
               end
               sleep 1
             end
@@ -127,7 +128,7 @@ class UnoModule
               @message.channel.send_message format(@language.getJson(event.server.id)['messages']['lobby-close'], s: i)
               if players.length > 1
                 lobby!
-                return
+                break
               end
               sleep 1
             end
@@ -182,7 +183,7 @@ class UnoModule
           event.message.delete_reaction(event.user, event.emoji.name)
           case event.emoji.name
           when '✖'
-            @matchMaking.leave(event.user)
+            @match_making.leave(event.user)
           end
         end
       end
@@ -292,8 +293,8 @@ class UnoModule
         o = [('a'..'z'), ('A'..'Z'), ('0'..'9')].map(&:to_a).flatten
         token = (0...50).map { o[rand(o.length)] }.join
         isUnique = true
-        @games.each do |game|
-          isUnique = false if game.tokens.include? token
+        @games.each do |current_game|
+          isUnique = false if current_game.tokens.include? token
         end
       end
       game.tokens.push(token)
