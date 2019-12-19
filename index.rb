@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../module.rb'
 require_relative './user-commands.rb'
 require_relative './game.rb'
 require_relative './setup.rb'
@@ -12,7 +11,7 @@ class UnoModule
   end
 
   def start(client, module_manager)
-    puts 'Starting uno module...'
+    puts "\u001b[36mStarting uno module..."
     @client = client
     @module_manager = module_manager
     @language = BotModule::Language.new __dir__ + '/language', @client
@@ -20,11 +19,11 @@ class UnoModule
     @module_manager.bot.discord.message do |event|
       message(event)
     end
-    puts 'Successfully started uno module!'
+    puts "\u001b[32mSuccessfully started uno module!"
   end
 
   def console_command(command, _args)
-    puts "Running uno@#{module_version} module!" if command == 'uno'
+    puts "\u001b[96mRunning uno@#{module_version} module!" if command == 'uno'
     true if command == 'uno'
   end
 
