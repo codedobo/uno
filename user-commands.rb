@@ -5,7 +5,7 @@ class UnoModule
   def message(event); end
 
   def userCommand(command, args, event)
-    commandLanguage = @language.getJson(event.server.id)['commands']
+    commandLanguage = @language.get_json(event.server.id)['commands']
     if commandLanguage['uno']['aliases'].include? command
       if args.empty?
         output = commandLanguage['uno']['output']
@@ -72,6 +72,6 @@ class UnoModule
   end
 
   def help(_user, channel)
-    channel << format(@language.getJson(channel.server.id)['help'])
+    channel.send_message format(@language.get_json(channel.server.id)['help'])
   end
 end

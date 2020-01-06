@@ -12,4 +12,4 @@ Install [codobo](https://github.com/CodeDoctorDE/codobo) and downloaad [this pac
 
 ## Version:
 
-0.5
+1.0

@@ -5,25 +5,19 @@ require_relative './game.rb'
 require_relative './setup.rb'
 # Uno module for the codobo
 class UnoModule
-  include BotModule
-  def self.module_version
-    '0.5'
-  end
+  include CoDoBo::BotModule
 
-  def start(client, module_manager)
-    puts "\u001b[36mStarting uno module..."
-    @client = client
+  def initialize(client, module_manager)
+    send_message "\u001b[36mStarting uno module..."
+    @client = module_manager.client
     @module_manager = module_manager
-    @language = BotModule::Language.new __dir__ + '/language', @client
+    @language = CoDoBo::Language.new(module_manager.client, __dir__ + '/language')
     setup
-    @module_manager.bot.discord.message do |event|
-      message(event)
-    end
-    puts "\u001b[32mSuccessfully started uno module!"
+    send_message "\u001b[32mSuccessfully started uno module!"
   end
 
   def console_command(command, _args)
-    puts "\u001b[96mRunning uno@#{module_version} module!" if command == 'uno'
+    send_message "\u001b[96mRunning uno@#{module_version} module!" if command == 'uno'
     true if command == 'uno'
   end
 
