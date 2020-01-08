@@ -3,15 +3,15 @@
 require_relative './user-commands.rb'
 require_relative './game.rb'
 require_relative './setup.rb'
-# Uno module for the codobo
+# Uno module for the codedobo
 class UnoModule
-  include CoDoBo::BotModule
+  include CodeDoBo::BotModule
 
   def initialize(client, module_manager)
     send_message "\u001b[36mStarting uno module..."
     @client = module_manager.client
     @module_manager = module_manager
-    @language = CoDoBo::Language.new(module_manager.client, __dir__ + '/language')
+    @language = CodeDoBo::Language.new(module_manager.client, __dir__ + '/language')
     setup
     send_message "\u001b[32mSuccessfully started uno module!"
   end
