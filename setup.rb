@@ -2,16 +2,6 @@
 
 require_relative './index.rb'
 class UnoModule
-  def setup
-    send_message "\u001b[96mSet up up uno module..."
-    @client.query("CREATE TABLE IF NOT EXISTS `uno` (
-      `SERVERID` bigint(255) NOT NULL,
-      `THEME` varchar(255) NOT NULL,
-      `CATEGORY` bigint(255),
-      PRIMARY KEY  (`SERVERID`)
-    );")
-    send_message "\u001b[32mSuccessfully set up uno module!"
-  end
 
   def join(server, _already)
     send_message "\u001b[96mSet up uno module for #{server.id}..."

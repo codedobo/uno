@@ -12,7 +12,6 @@ class UnoModule
     @client = module_manager.client
     @module_manager = module_manager
     @language = CodeDoBo::Language.new(module_manager.client, __dir__ + '/language')
-    setup
     send_message "\u001b[32mSuccessfully started uno module!"
   end
 
