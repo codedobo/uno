@@ -7,7 +7,6 @@ class UnoModule
     send_message "\u001b[96mSet up uno module for #{server.id}..."
     id = server.id
     theme = 'default'
-    @client.query("INSERT INTO `uno` VALUES (#{id},'#{theme}',NULL) ON DUPLICATE KEY UPDATE THEME='#{theme}';")
     match_making
     send_message "\u001b[32mSuccessfully set up uno module for #{server.id}!"
   end

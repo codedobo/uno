@@ -25,15 +25,15 @@ class UnoModule
       value.exit
     end
     @match_making = {}
-    @client.query('SELECT * FROM `uno`').each do |row|
-      next if row['CATEGORY'].nil?
-      next unless @module_manager.bot.discord.servers.key? row['SERVERID']
+    # @client.query('SELECT * FROM `uno`').each do |row|
+    #   next if row['CATEGORY'].nil?
+    #   next unless @module_manager.bot.discord.servers.key? row['SERVERID']
 
-      channel = @module_manager.bot.discord.channel(row['CATEGORY'])
-      bot = @module_manager.bot
-      channel_match_making = UnoModule::MatchMaking.new(bot, channel, @language)
-      @match_making[row['SERVERID'].to_i] = channel_match_making
-    end
+    #   channel = @module_manager.bot.discord.channel(row['CATEGORY'])
+    #   bot = @module_manager.bot
+    #   channel_match_making = UnoModule::MatchMaking.new(bot, channel, @language)
+    #   @match_making[row['SERVERID'].to_i] = channel_match_making
+    # end
   end
 
   def exit
