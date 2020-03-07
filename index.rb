@@ -7,10 +7,11 @@ require_relative './setup.rb'
 class UnoModule
   include CodeDoBo::BotModule
 
-  def initialize(client, module_manager)
+  def initialize(app_class, module_manager)
+    @app_class = app_class
+    @module_manager = module_manager
     send_message "\u001b[36mStarting uno module..."
     @client = module_manager.client
-    @module_manager = module_manager
     @language = CodeDoBo::Language.new(module_manager.client, __dir__ + '/language')
     send_message "\u001b[32mSuccessfully started uno module!"
   end
